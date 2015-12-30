@@ -14,18 +14,18 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Constraints.Required
     public Long id;
 
-    @Constraints.Required
-    public Long company_id;
+    @Column(name="company_id")
+    public Long companyId;
 
-    @Constraints.Required
-    public Long address_id;
+    @Column(name="address_id")
+    public Long addressId;
 
     @Constraints.Required
     public String username;
 
-    @Constraints.Required
     public String name;
 
     @Constraints.Required
@@ -35,14 +35,10 @@ public class User {
     @Constraints.Required
     public String password;
 
-
-    @Constraints.Required
     public String patronymic;
 
-    @Constraints.Required
     public String email;
 
-    @Constraints.Required
     @Temporal(TemporalType.TIMESTAMP)
     public Date birthday;
 

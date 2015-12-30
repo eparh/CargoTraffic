@@ -6,13 +6,13 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
   `id`         INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `username`   VARCHAR(250)         NOT NULL,
   `password`   VARCHAR(250)         NOT NULL,
-  `name`       VARCHAR(250)         NOT NULL,
+  `name`       VARCHAR(250)         ,
   `surname`    VARCHAR(250)         NOT NULL,
-  `patronymic` VARCHAR(250)         NOT NULL,
-  `email`      VARCHAR(250)         NOT NULL,
-  `birthday`   DATE                 NOT NULL,
-  `company_id` INTEGER(11) UNSIGNED NOT NULL,
-  `address_id` INTEGER(11) UNSIGNED NOT NULL,
+  `patronymic` VARCHAR(250)         ,
+  `email`      VARCHAR(250)         ,
+  `birthday`   DATE                 ,
+  `company_id` INTEGER(11) UNSIGNED,
+  `address_id` INTEGER(11) UNSIGNED ,
   `deleted`    BIT(1)                        DEFAULT FALSE,
   PRIMARY KEY (`id`),
   INDEX (`company_id` ASC),
@@ -28,10 +28,6 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
-
-INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
-  ("admin", "admin", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1);
 
 # --- !Downs
 

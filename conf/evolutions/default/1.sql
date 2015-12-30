@@ -12,10 +12,6 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`company` (
   DEFAULT CHARSET = utf8mb4;
 
 
-INSERT INTO `cargo_traffic`.`company` (name) VALUES
-  ("TradeCorp"),
-  ("TravelInc");
-
 # --- !Downs
 
 DROP TABLE IF EXISTS `cargo_traffic`.`company`;

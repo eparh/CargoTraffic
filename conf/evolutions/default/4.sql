@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`role` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-INSERT INTO `role` (name) VALUES
-  ("ADMIN"), ("USER");
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user_role` (
   `user_id` INTEGER(11) UNSIGNED NOT NULL,
@@ -30,9 +28,6 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user_role` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-
-INSERT INTO `user_role` (user_id, role_id) VALUES
-  (1, 1);
 
 # --- !Downs
 
