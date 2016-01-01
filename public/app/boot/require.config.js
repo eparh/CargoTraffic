@@ -1,5 +1,5 @@
 var require = {
-    baseUrl: "/assets/javascripts/",
+    baseUrl: "/assets/",
     paths: {
         "bootstrap": "lib/bootstrap.min",
         "crossroads": "lib/crossroads/crossroads",

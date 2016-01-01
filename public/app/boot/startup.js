@@ -2,7 +2,7 @@ define(['jquery', 'knockout', 'router', 'bootstrap', 'knockout-projections'], fu
     ko.components.register('greeter', { require: 'app/components/greeter/greeter' });
 
     ko.components.register('login', { require: 'app/pages/login/login' });
-    ko.components.register('companyList', { require: 'app/pages/companyList/companyList' });
+    ko.components.register('companies', { require: 'app/pages/companies/companies' });
     ko.components.register('home', { require: 'app/pages/home/home' });
     ko.components.register('settings', {
         template: { require: 'text!app/pages/settings/settings.html' }

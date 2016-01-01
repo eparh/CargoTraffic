@@ -1,26 +1,31 @@
 package controllers;
 
-import Service.CompanyService;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import models.Company;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
+import service.CompanyService;
 
 import java.util.List;
 
 /**
  * Created by Anton Chernov on 12/30/2015.
  */
+@SubjectPresent
 public class CompanyController extends Controller {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CompanyController.class);
+    private static final Logger.ALogger LOGGER = Logger.of(CompanyController.class);
 
-    @Transactional
+
+    @Restrict({@Group("ADMIN")})
     public Result getList() {
+        LOGGER.debug("Get company list for user = {}", Http.Context.current().args.get("user").toString());
         List<Company> companyList = CompanyService.getList();
-        LOGGER.debug("JSON = {}", Json.toJson(companyList).toString());
         return ok(Json.toJson(companyList));
     }
 }

@@ -1,8 +1,8 @@
 package controllers;
 
-import Service.UserService;
+import service.UserService;
 import models.User;
-import play.db.jpa.Transactional;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Result;
 
@@ -12,29 +12,30 @@ import java.util.Map;
  * Created by Anton Chernov on 12/30/2015.
  */
 public class LoginController extends BaseController {
+    private static final Logger.ALogger LOGGER = Logger.of(LoginController.class);
 
 
-    @Transactional
     public Result login() {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String name = values.get("user")[0];
+        String username = values.get("user")[0];
         String password = values.get("password")[0];
-        User user = UserService.findByName(name);
-        if(user == null) {
+        LOGGER.debug("Try to login username = {}, password = {}", username, password);
+        User user = UserService.findByName(username);
+        if (user == null) {
             return badRequest(Json.toJson(
-                    new Reply<>(Status.ERROR, "User not found"))
+                            new Reply<>(Status.ERROR, "User not found"))
             );
         }
-        if(password.equals(password)) {
+        if (password.equals(password)) {
             session().clear();
-            session("name", name);
-
+            session("username", username);
+            session("password", password);
             return ok(Json.toJson(
-                    new Reply<>(Status.SUCCESS, user))
+                            new Reply<>(Status.SUCCESS, "Right password"))
             );
         } else {
             return badRequest(Json.toJson(
-                    new Reply<>(Status.ERROR, "Wrong password"))
+                            new Reply<>(Status.ERROR, "Wrong password"))
             );
         }
     }

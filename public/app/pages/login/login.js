@@ -11,7 +11,7 @@ define(["knockout", "text!./login.html", "app/models/user", "router"], function 
                 data: {user: self.user, password: self.password}
             }).done(function (reply) {
                 if (reply.status === "SUCCESS") {
-                    window.location.href = "companyList";
+                    window.location.href = "companies";
                     // $("body").trigger("authorized", new User(data.id, data.name));
                 }
             })
