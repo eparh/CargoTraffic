@@ -14,5 +14,4 @@ public class Application extends Controller {
         return ok(main.render());
     }
 
-
 }

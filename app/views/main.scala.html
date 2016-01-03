@@ -2,16 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>List</title>
+        <title>Cargo traffic</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/lib/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <script src="@routes.Assets.versioned("app/boot/require.config.js")"></script>
         <script data-main="@routes.Assets.versioned("app/boot/startup.js")" src="@routes.Assets.versioned("lib/require.min.js")"></script>
-<body>
-    @navbar()
+    </head>
+    <body>
+        <div class="wrapper">
+            <navbar></navbar>
 
-    <main id="page1" class="container"  data-bind="component: { name: $root.route().page, params: route }"></main>
+            <main id="page1" class="container" data-bind="component: { name: $root.route().page, params: route }"></main>
 
-    @footer()
+            @footer()
+        </div>
     </body>
 </html>

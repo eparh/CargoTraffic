@@ -1,15 +1,28 @@
 define(["knockout", "text!./companies.html"], function (ko, listTemplate) {
-    function listViewModel() {
+    "use strict";
+
+    function companiesViewModel() {
         var self = this;
         self.companies = ko.observableArray([]);
 
-        $.getJSON("/api/companies", function (data) {
-            self.companies(data);
-        })
+        $.ajax({
+            url: "api/companies",
+            method: "GET",
+            data: {}
+        }).done(function (reply) {
+            if (reply.status === "SUCCESS") {
+                self.companies(reply.data);
+            } else {
+                var link = document.createElement('a');
+                link.href = "login";
+                document.body.appendChild(link);
+                link.click();
+            }
+        });
 
         return self;
     }
 
-    return {viewModel: listViewModel, template: listTemplate};
+    return {viewModel: companiesViewModel, template: listTemplate};
 });
 

@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.apache.commons" % "commons-lang3" % "3.4",
   "org.apache.commons" % "commons-collections4" % "4.1",
-  "be.objectify" %% "deadbolt-java" % "2.4.3"
+  "be.objectify" %% "deadbolt-java" % "2.4.3",
+  "com.nimbusds" % "nimbus-jose-jwt" % "3.8.2"
 )
 
 routesGenerator := InjectedRoutesGenerator

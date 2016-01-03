@@ -1,7 +1,7 @@
-define(['jquery',"knockout", "text!./login.html"], function ($, ko, loginTemplate) {
+define(["knockout", "text!./account.html"], function (ko, profileTemplate) {
     "use strict";
 
-    function loginViewModel() {
+    function profileViewModel() {
         var self = this;
         self.user = ko.observable();
         self.password = ko.observable();
@@ -16,15 +16,15 @@ define(['jquery',"knockout", "text!./login.html"], function ($, ko, loginTemplat
                     self.error("");
                     root.roles(reply.data);
                     var link = document.createElement('a');
-                    link.href = "account";
+                    link.href = "companies";
                     document.body.appendChild(link);
                     link.click();
                 } else
                     self.error(reply.data);
             })
-        };
+        }
         return self;
     }
 
-    return {viewModel: loginViewModel, template: loginTemplate};
+    return {viewModel: profileViewModel, template: profileTemplate};
 });

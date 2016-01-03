@@ -1,8 +1,10 @@
 define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, crossroads) {
+    "use strict";
 
     return new Router({
         routes: [
-            {url: '/', params: {page: 'login'}},
+            {url: 'login', params: {page: 'login'}},
+            {url: 'account', params: {page: 'account'}},
             {url: 'companies', params: {page: 'companies'}},
             {url: 'home', params: {page: 'home'}},
             {url: 'settings', params: {page: 'settings'}}
@@ -22,21 +24,22 @@ define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, cross
             function (e) {
                 var title, urlPath;
                 urlPath = $(this).attr("href");
-                if (urlPath.slice(0, 1) == "#") {
-                    return true;
+                if (urlPath !== undefined) {
+                    if (urlPath.slice(0, 1) == "#") {
+                        return true;
+                    }
+                    e.preventDefault();
+                    title = $(this).text();
+                    return History.pushState({
+                        urlPath: urlPath
+                    }, title, urlPath);
                 }
-                e.preventDefault();
-                title = $(this).text();
-                return History.pushState({
-                    urlPath: urlPath
-                }, title, urlPath);
             });
     }
 
     function activateCrossroads() {
         History.Adapter.bind(window, "statechange", routeCrossRoads);
         crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
-        //crossroads.parse('/');
         routeCrossRoads();
     }
 

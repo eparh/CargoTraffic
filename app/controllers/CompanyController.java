@@ -4,8 +4,9 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import models.Company;
+import models.Reply;
+import models.ReplyStatus;
 import play.Logger;
-import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -23,9 +24,9 @@ public class CompanyController extends Controller {
 
 
     @Restrict({@Group("ADMIN")})
-    public Result getList() {
-        LOGGER.debug("Get company list for user = {}", Http.Context.current().args.get("user").toString());
+    public Result companies() {
+        LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
         List<Company> companyList = CompanyService.getList();
-        return ok(Json.toJson(companyList));
+        return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));
     }
 }

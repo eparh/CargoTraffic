@@ -1,6 +1,7 @@
 package models;
 
 import be.objectify.deadbolt.core.models.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class UserRole implements Role {
+    @JsonIgnore
     @Id
     public Long id;
 
