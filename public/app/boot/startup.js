@@ -26,9 +26,15 @@ define(['jquery', 'knockout', 'router', 'bootstrap', 'knockout-projections'], fu
 
             if ((window.location.pathname === "/")||(window.location.pathname === "/"))
                 if (roles().length === 0) {
-                    router.currentRoute("login");
+                    var link = document.createElement('a');
+                    link.href = "login";
+                    document.body.appendChild(link);
+                    link.click();
                 } else {
-                    router.currentRoute("account");
+                    var link = document.createElement('a');
+                    link.href = "account";
+                    document.body.appendChild(link);
+                    link.click();
                 }
 
             ko.applyBindings({
