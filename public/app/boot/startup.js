@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'router', 'bootstrap', 'knockout-projections'], function ($, ko, router) {
+define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projections'], function (util, ko, router) {
     "use strict";
 
     ko.components.register('navbar', {require: 'app/components/navbar/navbar'});
@@ -13,28 +13,17 @@ define(['jquery', 'knockout', 'router', 'bootstrap', 'knockout-projections'], fu
 
 
     if (roles().length === 0)
-
-        $.ajax({
-            url: "api/roles",
-            method: "POST",
-            data: {}
-        }).done(function (reply) {
+        util.ajax("api/roles", "POST", {}, function (reply) {
 
             if (reply.status === "SUCCESS") {
                 roles(reply.data);
             }
 
-            if ((window.location.pathname === "/")||(window.location.pathname === "/"))
+            if ((window.location.pathname === "/") || (window.location.pathname === "/"))
                 if (roles().length === 0) {
-                    var link = document.createElement('a');
-                    link.href = "login";
-                    document.body.appendChild(link);
-                    link.click();
+                    util.goTo("login");
                 } else {
-                    var link = document.createElement('a');
-                    link.href = "account";
-                    document.body.appendChild(link);
-                    link.click();
+                    util.goTo("account");
                 }
 
             ko.applyBindings({

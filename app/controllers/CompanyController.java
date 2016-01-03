@@ -23,7 +23,7 @@ public class CompanyController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyController.class);
 
 
-    @Restrict({@Group("ADMIN")})
+    @Restrict({@Group("SYS_ADMIN")})
     public Result companies() {
         LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
         List<Company> companyList = CompanyService.getList();

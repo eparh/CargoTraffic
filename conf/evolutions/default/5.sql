@@ -20,7 +20,7 @@ INSERT INTO `user` (username, password, name, surname, patronymic, email, birthd
 
 
 INSERT INTO `role` (name) VALUES
-  ("ADMIN"), ("USER");
+  ("SYS_ADMIN"), ("USER");
 
 INSERT INTO `user_role` (user_id, role_id) VALUES
   (1, 1),

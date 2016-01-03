@@ -1,26 +1,17 @@
-define(["knockout", "text!./navbar.html"], function (ko, navbarTemplate) {
+define(['app/utils/utils', "knockout", "text!./navbar.html"], function (utils, ko, navbarTemplate) {
     "use strict";
 
     function navbarViewModel() {
         var self = this;
 
-        self.index = function () {
-            window.location.hash = "";
-        };
         self.logout = function (root) {
-            $.ajax({
-                url: "api/logout",
-                method: "POST",
-                data: {}
-            }).done(function (reply) {
-                if (reply.status === "SUCCESS") {
-                    root.roles([]);
-                    var link = document.createElement('a');
-                    link.href = "login";
-                    document.body.appendChild(link);
-                    link.click();
-                }
-            })
+            utils.ajax("api/logout", "POST", {},
+                function (reply) {
+                    if (reply.status === "SUCCESS") {
+                        root.roles([]);
+                        utils.goTo("login");
+                    }
+                })
         };
 
         return self;

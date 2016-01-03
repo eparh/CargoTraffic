@@ -1,30 +1,21 @@
-define(["knockout", "text!./account.html"], function (ko, profileTemplate) {
+define(['app/utils/utils', "knockout", "text!./account.html"], function (utils, ko, accountTemplate) {
     "use strict";
 
-    function profileViewModel() {
+    function accountViewModel() {
         var self = this;
-        self.user = ko.observable();
-        self.password = ko.observable();
-        self.error = ko.observable();
-        self.login = function (root) {
-            $.ajax({
-                url: "api/login",
-                method: "POST",
-                data: {user: self.user, password: self.password}
-            }).done(function (reply) {
+        self.user = ko.observable({});
+
+        utils.ajax("api/account", "GET", {},
+            function (reply) {
                 if (reply.status === "SUCCESS") {
-                    self.error("");
-                    root.roles(reply.data);
-                    var link = document.createElement('a');
-                    link.href = "companies";
-                    document.body.appendChild(link);
-                    link.click();
-                } else
-                    self.error(reply.data);
-            })
-        }
+                    self.user(reply.data);
+                } else {
+                    utils.goTo("login");
+                }
+            });
+
         return self;
     }
 
-    return {viewModel: profileViewModel, template: profileTemplate};
+    return {viewModel: accountViewModel, template: accountTemplate};
 });
