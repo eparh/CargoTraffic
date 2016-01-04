@@ -6,15 +6,12 @@ import be.objectify.deadbolt.java.DynamicResourceHandler;
 import models.Reply;
 import models.ReplyStatus;
 import models.User;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.libs.F;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.UserService;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import static play.mvc.Results.ok;
@@ -33,16 +30,19 @@ public class SecurityHandler implements DeadboltHandler {
 
     @Override
     public F.Promise<Optional<Subject>> getSubject(Http.Context context) {
-        String username = context.session().get("username");
-        String password = context.session().get("password");
-        if (StringUtils.isNoneEmpty(username) && StringUtils.isNoneEmpty(password)) {
-            User user = UserService.findByName(username);
-            if (!StringUtils.equals(user.password, password)) return F.Promise.promise(Optional::empty);
-            if (!Objects.isNull(user)) context.args.put("user", user);
-            LOGGER.debug("User = {} Roles = {}", username, StringUtils.join(user.getRoles()));
-            return F.Promise.promise(() -> Optional.ofNullable(user));
-        } else
+        LOGGER.debug("Try to authenticate api request");
+        try {
+            if (TokenController.validateToken(context)) {
+                LOGGER.debug("Token is valid");
+                return F.Promise.promise(() -> Optional.ofNullable((User) context.args.get("user")));
+            } else {
+                LOGGER.debug("Token isn't valid");
+                return F.Promise.promise(Optional::empty);
+            }
+        } catch (Throwable throwable) {
+            LOGGER.debug("Token isn't valid");
             return F.Promise.promise(Optional::empty);
+        }
     }
 
 
@@ -52,7 +52,6 @@ public class SecurityHandler implements DeadboltHandler {
         return F.Promise.promise(() -> ok(Json.toJson(
                 new Reply<>(ReplyStatus.ERROR, "Unauthorized"))));
     }
-
 
 
     @Override

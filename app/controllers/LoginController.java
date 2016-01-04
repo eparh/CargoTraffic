@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import security.TokenController;
 import service.UserService;
 
 import java.util.Map;
@@ -31,19 +32,18 @@ public class LoginController extends Controller {
         User user = UserService.findByName(username);
         if (user == null) {
             return ok(Json.toJson(
-                            new Reply<>(ReplyStatus.ERROR, "User not found"))
+                    new Reply<>(ReplyStatus.ERROR, "User not found"))
             );
         }
         if (StringUtils.equals(user.password, password)) {
-            session().clear();
-            session("username", username);
-            session("password", password);
+            TokenController.removeToken(response());
+            TokenController.setToken(user, request().host(), response());
             return ok(Json.toJson(
-                            new Reply<>(ReplyStatus.SUCCESS, user.getRoles()))
+                    new Reply<>(ReplyStatus.SUCCESS, user.getRoles()))
             );
         } else {
             return ok(Json.toJson(
-                            new Reply<>(ReplyStatus.ERROR, "Wrong password"))
+                    new Reply<>(ReplyStatus.ERROR, "Wrong password"))
             );
         }
     }
@@ -58,7 +58,7 @@ public class LoginController extends Controller {
     @SubjectPresent
     public Result logout() {
         LOGGER.debug("API Logout user = {}", Http.Context.current().args.get("user").toString());
-        session().clear();
+        TokenController.removeToken(response());
         return ok(Json.toJson(
                 new Reply<>(ReplyStatus.SUCCESS, "Logout"))
         );

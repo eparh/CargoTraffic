@@ -38,6 +38,16 @@ public class UserService {
         return userList;
     }
 
+    public static User find(long id) throws Throwable {
+        LOGGER.debug("Get user with id = {}", id);
+        return JPA.withTransaction(() -> {
+                    EntityManager em = JPA.em();
+                    return em.find(User.class, id);
+                }
+        );
+    }
+
+
     public static User findByName(String name) {
         LOGGER.debug("Get user with name = {}", name);
         final List<User> userList = new ArrayList<>();
