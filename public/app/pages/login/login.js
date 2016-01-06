@@ -7,7 +7,7 @@ define(['app/utils/utils', "knockout", "text!./login.html"], function (utils, ko
         self.password = ko.observable();
         self.error = ko.observable();
         self.login = function (root) {
-            utils.ajax("api/login", "POST", {user: self.user, password: self.password},
+            utils.ajax("api/login", "POST", {user: self.user(), password: self.password()},
                 function (reply) {
                     if (reply.status === "SUCCESS") {
                         self.error("");

@@ -2,19 +2,19 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Reply;
 import models.ReplyStatus;
 import models.User;
-import org.apache.commons.codec.binary.StringUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import security.TokenController;
 import service.UserService;
-
-import java.util.Map;
 
 /**
  * Created by Anton Chernov on 12/30/2015.
@@ -24,10 +24,11 @@ public class LoginController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(LoginController.class);
 
     @SubjectNotPresent
-    public Result login() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String username = values.get("user")[0];
-        String password = values.get("password")[0];
+    @BodyParser.Of(BodyParser.TolerantJson.class)
+    public Result login() throws Throwable {
+        JsonNode json = request().body().asJson();
+        String username = json.findPath("user").textValue();
+        String password = json.findPath("password").textValue();
         LOGGER.debug("API Try to login username = {}, password = {}", username, password);
         User user = UserService.findByName(username);
         if (user == null) {
@@ -35,7 +36,7 @@ public class LoginController extends Controller {
                     new Reply<>(ReplyStatus.ERROR, "User not found"))
             );
         }
-        if (StringUtils.equals(user.password, password)) {
+        if (BCrypt.checkpw(password, user.password)) {
             TokenController.removeToken(response());
             TokenController.setToken(user, request().host(), response());
             return ok(Json.toJson(

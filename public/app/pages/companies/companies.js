@@ -5,7 +5,7 @@ define(['app/utils/utils',"knockout", "text!./companies.html"], function (utils,
         var self = this;
         self.companies = ko.observableArray([]);
 
-        utils.ajax("api/companies", "GET", {},
+        utils.ajax("api/companies", "GET",  {},
             function (reply) {
                 if (reply.status === "SUCCESS") {
                     self.companies(reply.data);

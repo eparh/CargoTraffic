@@ -5,7 +5,7 @@ define(['app/utils/utils', "knockout", "text!./account.html"], function (utils, 
         var self = this;
         self.user = ko.observable({});
 
-        utils.ajax("api/account", "GET", {},
+        utils.ajax("api/account", "GET",  {},
             function (reply) {
                 if (reply.status === "SUCCESS") {
                     self.user(reply.data);

@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,10 +17,9 @@ import java.util.List;
 public class CompanyService {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyService.class);
 
-    public static List<Company> getList() {
+    public static List<Company> getList() throws Throwable {
         LOGGER.debug("Get company list");
-        final List<Company> companyList = new ArrayList<>();
-        JPA.withTransaction(() -> {
+        return JPA.withTransaction(() -> {
                     EntityManager em = JPA.em();
                     CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
                     CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
@@ -29,11 +27,8 @@ public class CompanyService {
 
                     CriteriaQuery<Company> select = criteriaQuery.select(from);
                     TypedQuery<Company> q = em.createQuery(select);
-                    companyList.addAll(q.getResultList());
-
+                    return q.getResultList();
                 }
         );
-        return companyList;
     }
-
 }

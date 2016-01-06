@@ -24,6 +24,7 @@ public class SecurityHandler implements DeadboltHandler {
 
     @Override
     public F.Promise<Optional<Result>> beforeAuthCheck(Http.Context context) {
+        LOGGER.debug("Before check");
         return F.Promise.promise(Optional::empty);
     }
 

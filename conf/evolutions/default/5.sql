@@ -14,10 +14,10 @@ INSERT INTO `address` (country, city, street, house) VALUES
 
 
 INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
-  ("admin", "admin", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
-  ("user", "user", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+  ("admin", "$2a$12$i1UEuEN99CNIsPfrEAcaeuP0pkLlVvGc2jnrRZqKaX/Osylh10WSG", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
+  ("user", "$2a$12$HGlcYAg/Z/IoZj2.D3PgsOqopzoHacNvw4jjpAZSRagmBpOVvz1pm", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
 
-
+#password == username
 
 INSERT INTO `role` (name) VALUES
   ("SYS_ADMIN"), ("USER");

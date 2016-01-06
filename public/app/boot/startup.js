@@ -13,7 +13,7 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
 
 
     if (roles().length === 0)
-        util.ajax("api/roles", "POST", {}, function (reply) {
+        util.ajax("api/roles", "GET", {}, function (reply) {
 
             if (reply.status === "SUCCESS") {
                 roles(reply.data);

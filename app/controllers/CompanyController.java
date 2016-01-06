@@ -24,7 +24,7 @@ public class CompanyController extends Controller {
 
 
     @Restrict({@Group("SYS_ADMIN")})
-    public Result companies() {
+    public Result companies() throws Throwable {
         LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
         List<Company> companyList = CompanyService.getList();
         return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));

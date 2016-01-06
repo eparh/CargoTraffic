@@ -24,7 +24,7 @@ public class TokenController {
     private static final Logger.ALogger LOGGER = Logger.of(TokenController.class);
     private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
     private static final String KEY = Play.application().configuration().getString("play.crypto.secret");
-    private static final int tokenLive = 12960000;
+    private static final int tokenLive = 3600;
     private static final String COOKIE_NAME = "access_token";
 
     public static void setToken(User user, String host, Http.Response response) {
@@ -56,7 +56,7 @@ public class TokenController {
                 .signWith(ALGORITHM, signingKey);
 
 
-        long expMillis = nowMillis + tokenLive;
+        long expMillis = nowMillis + tokenLive * 100000;
         Date exp = new Date(expMillis);
         builder.setExpiration(exp);
 
