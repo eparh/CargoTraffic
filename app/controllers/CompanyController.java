@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.CompanyService;
+import service.ServiceException;
 
 import java.util.List;
 
@@ -24,9 +25,17 @@ public class CompanyController extends Controller {
 
 
     @Restrict({@Group("SYS_ADMIN")})
-    public Result companies() throws Throwable {
+    public Result companies() throws ControllerException {
         LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
-        List<Company> companyList = CompanyService.getList();
+
+        List<Company> companyList = null;
+        try {
+            companyList = CompanyService.getList();
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+
         return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));
     }
 }

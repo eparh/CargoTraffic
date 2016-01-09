@@ -17,18 +17,23 @@ import java.util.List;
 public class CompanyService {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyService.class);
 
-    public static List<Company> getList() throws Throwable {
+    public static List<Company> getList() throws ServiceException {
         LOGGER.debug("Get company list");
-        return JPA.withTransaction(() -> {
-                    EntityManager em = JPA.em();
-                    CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-                    CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
-                    Root<Company> from = criteriaQuery.from(Company.class);
+        try {
+            return JPA.withTransaction(() -> {
+                        EntityManager em = JPA.em();
+                        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+                        CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
+                        Root<Company> from = criteriaQuery.from(Company.class);
 
-                    CriteriaQuery<Company> select = criteriaQuery.select(from);
-                    TypedQuery<Company> q = em.createQuery(select);
-                    return q.getResultList();
-                }
-        );
+                        CriteriaQuery<Company> select = criteriaQuery.select(from);
+                        TypedQuery<Company> q = em.createQuery(select);
+                        return q.getResultList();
+                    }
+            );
+        } catch (Throwable throwable) {
+            LOGGER.error("Get list error = {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 }

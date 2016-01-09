@@ -17,44 +17,59 @@ import java.util.List;
 public class UserService {
     private static final Logger.ALogger LOGGER = Logger.of(UserService.class);
 
-    public static List<User> getUserList() throws Throwable {
+    public static List<User> getUserList() throws ServiceException {
         LOGGER.debug("Get user list");
-        return JPA.withTransaction(() -> {
-                    EntityManager em = JPA.em();
-                    CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-                    CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-                    Root<User> from = criteriaQuery.from(User.class);
+        try {
+            return JPA.withTransaction(() -> {
+                        EntityManager em = JPA.em();
+                        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+                        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+                        Root<User> from = criteriaQuery.from(User.class);
 
-                    CriteriaQuery<User> select = criteriaQuery.select(from);
-                    TypedQuery<User> q = em.createQuery(select);
+                        CriteriaQuery<User> select = criteriaQuery.select(from);
+                        TypedQuery<User> q = em.createQuery(select);
 
-                    return q.getResultList();
+                        return q.getResultList();
 
-                }
-        );
+                    }
+            );
+        } catch (Throwable throwable) {
+            LOGGER.error("Get user list = {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 
-    public static User find(long id) throws Throwable {
+    public static User find(long id) throws ServiceException {
         LOGGER.debug("Get user with id = {}", id);
-        return JPA.withTransaction(() -> {
-                    EntityManager em = JPA.em();
-                    return em.find(User.class, id);
-                }
-        );
+        try {
+            return JPA.withTransaction(() -> {
+                        EntityManager em = JPA.em();
+                        return em.find(User.class, id);
+                    }
+            );
+        } catch (Throwable throwable) {
+            LOGGER.error("Find user id = {}, error = {}", id, throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 
 
-    public static User findByName(String name) throws Throwable {
+    public static User findByName(String name) throws ServiceException {
         LOGGER.debug("Get user with name = {}", name);
-        return JPA.withTransaction(() -> {
-                    EntityManager em = JPA.em();
-                    CriteriaBuilder builder = em.getCriteriaBuilder();
-                    CriteriaQuery<User> query = builder.createQuery(User.class);
-                    Root<User> u = query.from(User.class);
-                    query.select(u).where(builder.equal(u.get("username"), name));
-                    TypedQuery<User> q = em.createQuery(query);
-                    return q.getSingleResult();
-                }
-        );
+        try {
+            return JPA.withTransaction(() -> {
+                        EntityManager em = JPA.em();
+                        CriteriaBuilder builder = em.getCriteriaBuilder();
+                        CriteriaQuery<User> query = builder.createQuery(User.class);
+                        Root<User> u = query.from(User.class);
+                        query.select(u).where(builder.equal(u.get("username"), name));
+                        TypedQuery<User> q = em.createQuery(query);
+                        return q.getSingleResult();
+                    }
+            );
+        } catch (Throwable throwable) {
+            LOGGER.error("Find user name = {}, error = {}", name, throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 }
