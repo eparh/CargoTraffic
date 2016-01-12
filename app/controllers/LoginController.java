@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import security.TokenController;
+import service.ServiceException;
 import service.UserService;
 
 /**
@@ -25,12 +26,20 @@ public class LoginController extends Controller {
 
     @SubjectNotPresent
     @BodyParser.Of(BodyParser.TolerantJson.class)
-    public Result login() throws Throwable {
+    public Result login() throws ControllerException {
         JsonNode json = request().body().asJson();
         String username = json.findPath("user").textValue();
         String password = json.findPath("password").textValue();
         LOGGER.debug("API Try to login username = {}, password = {}", username, password);
-        User user = UserService.findByName(username);
+
+        User user;
+        try {
+            user = UserService.findByName(username);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+
         if (user == null) {
             return ok(Json.toJson(
                     new Reply<>(ReplyStatus.ERROR, "User not found"))
