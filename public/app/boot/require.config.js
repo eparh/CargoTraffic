@@ -16,4 +16,4 @@ var require = {
             deps: ["jquery"]
         }
     }
-}
+};

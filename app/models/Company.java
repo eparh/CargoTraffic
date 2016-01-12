@@ -20,4 +20,7 @@ public class Company {
 
     @Constraints.Required
     public String name;
+
+    @Constraints.Required
+    public Boolean deleted;
 }

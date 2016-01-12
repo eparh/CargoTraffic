@@ -19,7 +19,7 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
                 roles(reply.data);
             }
 
-            if ((window.location.pathname === "/") || (window.location.pathname === "/"))
+            if ((window.location.pathname === "/") || (window.location.pathname === "/home"))
                 if (roles().length === 0) {
                     util.goTo("login");
                 } else {

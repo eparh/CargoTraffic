@@ -12,7 +12,7 @@ define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, cross
     });
 
     function Router(config) {
-        var currentRoute = this.currentRoute = ko.observable({});
+        var currentRoute = this.currentRoute = ko.observable({});  
 
         ko.utils.arrayForEach(config.routes, function (route) {
             crossroads.addRoute(route.url, function (requestParams) {
