@@ -7,10 +7,17 @@ define(['app/utils/utils',"knockout", "text!./companies.html"], function (utils,
 
         utils.ajax("api/companies", "GET",  {},
             function (reply) {
-                if (reply.status === "SUCCESS") {
-                    self.companies(reply.data);
-                } else {
-                    utils.goTo("login");
+                switch (reply.status) {
+                    case "SUCCESS":
+                        self.companies(reply.data);
+                        break;
+                    case "ERROR":
+                        break;
+                    case "UNAUTHENTICATED":
+                        utils.goTo("login");
+                        break;
+                    default:
+                        break;
                 }
             });
 

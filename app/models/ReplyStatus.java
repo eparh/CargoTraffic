@@ -5,5 +5,6 @@ package models;
  */
 public enum ReplyStatus {
     SUCCESS,
-    ERROR
+    ERROR,
+    UNAUTHENTICATED
 }

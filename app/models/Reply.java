@@ -8,7 +8,7 @@ public class Reply<T> {
     public T data;
 
     public Reply() {
-        this.status = ReplyStatus.ERROR;
+        this.status = ReplyStatus.UNAUTHENTICATED;
     }
 
     public Reply(ReplyStatus status, T data) {
