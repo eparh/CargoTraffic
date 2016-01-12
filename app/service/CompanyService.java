@@ -16,7 +16,6 @@ import java.util.List;
 public class CompanyService {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyService.class);
 
-<<<<<<< HEAD
     public static List<Company> getCompanies(long id, int count, boolean ascOrder) throws ServiceException {
         LOGGER.debug("Get company list: {}, {}, {}", id, count, ascOrder);
         try {
@@ -36,20 +35,6 @@ public class CompanyService {
                         if (!ascOrder)
                             Collections.reverse(companies);
                         return companies;
-=======
-    public static List<Company> getList() throws ServiceException {
-        LOGGER.debug("Get company list");
-        try {
-            return JPA.withTransaction(() -> {
-                        EntityManager em = JPA.em();
-                        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-                        CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
-                        Root<Company> from = criteriaQuery.from(Company.class);
-
-                        CriteriaQuery<Company> select = criteriaQuery.select(from);
-                        TypedQuery<Company> q = em.createQuery(select);
-                        return q.getResultList();
->>>>>>> 3a2e9c4a9efb150bce27f904db4016cb21293275
                     }
             );
         } catch (Throwable throwable) {

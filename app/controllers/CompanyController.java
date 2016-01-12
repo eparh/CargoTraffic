@@ -25,7 +25,7 @@ public class CompanyController extends Controller {
     @Restrict({@Group("SYS_ADMIN")})
     public Result companies() throws ControllerException {
         LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
-<<<<<<< HEAD
+
         List<Company> companyList = null;
         try {
             companyList = CompanyService.getCompanies(3, 2, false);
@@ -33,17 +33,6 @@ public class CompanyController extends Controller {
             LOGGER.error("error = {}", e);
             return ok(Json.toJson(new Reply<>(ReplyStatus.ERROR, companyList)));
         }
-=======
-
-        List<Company> companyList = null;
-        try {
-            companyList = CompanyService.getList();
-        } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
-            throw new ControllerException(e.getMessage(), e);
-        }
-
->>>>>>> 3a2e9c4a9efb150bce27f904db4016cb21293275
         return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));
     }
 }
