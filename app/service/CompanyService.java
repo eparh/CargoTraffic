@@ -6,9 +6,6 @@ import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class CompanyService {
                         Query query = em.createQuery(stringBuilder.toString());
                         query.setParameter(1, id);
                         query.setParameter(2, false);
-                        query.setMaxResults(count + 1);
+                        query.setMaxResults(count);
                         List<Company> companies = query.getResultList();
                         if (!ascOrder)
                             Collections.reverse(companies);

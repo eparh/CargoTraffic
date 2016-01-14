@@ -5,7 +5,7 @@ define(['jquery'], function ($) {
         $.ajax({
             url: url,
             method: method,
-            data: JSON.stringify(data),
+            data: data,
             contentType: 'application/json'
         }).done(doneFunk)
             .fail(failFunk)

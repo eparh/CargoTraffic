@@ -1,14 +1,41 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th><input class="selectAll" type="checkbox" id="selectAllCheckbox"></th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: companies">
-        <tr>
-            <td><input class="idCheck" type="checkbox" data-bind="attr: { value: id}"/></td>
-            <td class="link" data-bind="text: name"></td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-sm-offset-9">
+        <button type="button" class="btn btn-info" title="Add company">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
+        <button type="button" class="btn btn-danger" title="Lock company">
+            <span class="glyphicon glyphicon-lock"></span> Lock
+        </button>
+        <button type="button" class="btn btn-success" title="Unlock company">
+            <span class="glyphicon glyphicon-briefcase"></span> Unlock
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th><input class="selectAll" type="checkbox" data-bind="checked: checkAll" id="selectAllCheckbox"></th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: companies">
+                <tr>
+                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedCompany, attr: { value: id }"/></td>
+                    <td class="link" data-bind="text: name"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a href="">Previous</a></li>
+            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a href="">Next</a></li>
+        </ul>
+    </div>
+</div>
