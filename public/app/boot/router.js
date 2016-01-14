@@ -29,7 +29,7 @@ define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, cross
                         return true;
                     }
                     e.preventDefault();
-                    title = $(this).text();
+                    title = $(document).find("title").text();
                     return History.pushState({
                         urlPath: urlPath
                     }, title, urlPath);
