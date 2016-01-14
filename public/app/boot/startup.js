@@ -19,11 +19,12 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
                 roles(reply.data);
             }
 
-            if (roles().length === 0) {
-                util.goTo("login");
-            } else {
-                util.goTo("account");
-            }
+            if (window.location.pathname === "/")
+                if (roles().length === 0) {
+                    util.goTo("login");
+                } else {
+                    util.goTo("account");
+                }
 
             ko.applyBindings({
                 route: router.currentRoute,
