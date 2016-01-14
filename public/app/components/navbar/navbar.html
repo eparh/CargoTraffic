@@ -1,0 +1,21 @@
+<header class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="account">Cargo Traffic</a>
+        </div>
+        <div>
+            <!-- ko if: $root.roles().length !==0  -->
+                <!-- ko foreach: $root.roles() -->
+                    <!-- ko if: name == "SYS_ADMIN"  -->
+                        <ul class="nav navbar-nav">
+                            <li><a href="companies">Companies</a></li>
+                        </ul>
+                    <!-- /ko -->
+                <!-- /ko -->
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="" data-bind="click: function() {logout($root)}">Logout</a></li>
+            </ul>
+            <!-- /ko -->
+        </div>
+    </div>
+</header>

@@ -1,6 +1,6 @@
 name := """CargoTraffic"""
 
-version := "1.0-SNAPSHOT"
+version := "0.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
@@ -10,9 +10,16 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  "org.springframework.data" % "spring-data-jpa" % "1.9.2.RELEASE"
+  javaJpa,
+  evolutions,
+  "org.hibernate" % "hibernate-entitymanager" % "5.0.6.Final",
+  "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.apache.commons" % "commons-lang3" % "3.4",
+  "org.apache.commons" % "commons-collections4" % "4.1",
+  "be.objectify" %% "deadbolt-java" % "2.4.3",
+  "io.jsonwebtoken" % "jjwt" % "0.6.0",
+  "de.svenkubiak" % "jBCrypt" % "0.4"
 )
 
-// Play provides two styles of routers, one expects its actions to be injected, the
-// other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
+PlayKeys.externalizeResources := false
