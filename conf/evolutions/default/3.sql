@@ -1,35 +1,29 @@
-# --- Adding user table
+# --- Testing data
 
 # --- !Ups
 
-CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
-  `id`         INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-  `username`   VARCHAR(250)         NOT NULL,
-  `password`   VARCHAR(250)         NOT NULL,
-  `name`       VARCHAR(250)         ,
-  `surname`    VARCHAR(250)         NOT NULL,
-  `patronymic` VARCHAR(250)         ,
-  `email`      VARCHAR(250)         ,
-  `birthday`   DATE                 ,
-  `company_id` INTEGER(11) UNSIGNED,
-  `address_id` INTEGER(11) UNSIGNED ,
-  `deleted`    BIT(1)                        DEFAULT FALSE,
-  PRIMARY KEY (`id`),
-  INDEX (`company_id` ASC),
-  INDEX (`address_id` ASC),
-  FOREIGN KEY (`company_id`)
-  REFERENCES `cargo_traffic`.`company` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`address_id`)
-  REFERENCES `cargo_traffic`.`address` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+
+INSERT INTO `cargo_traffic`.`company` (name) VALUES
+  ("TradeCorp"),
+  ("TravelInc"),
+  ("SomeInc");
+
+INSERT INTO `address` (country, city, street, house) VALUES
+  ("Belarus", "Minsk", "blabla", "12");
+
+
+
+INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
+  ("admin", "$2a$12$i1UEuEN99CNIsPfrEAcaeuP0pkLlVvGc2jnrRZqKaX/Osylh10WSG", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
+  ("user", "$2a$12$HGlcYAg/Z/IoZj2.D3PgsOqopzoHacNvw4jjpAZSRagmBpOVvz1pm", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+
+#password == username
+
+INSERT INTO `role` (name) VALUES
+  ("SYS_ADMIN"), ("USER");
+
+INSERT INTO `user_role` (user_id, role_id) VALUES
+  (1, 1),
+  (2, 2);
 
 # --- !Downs
-
-DROP TABLE IF EXISTS `cargo_traffic`.`user`;
-

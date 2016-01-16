@@ -5,21 +5,12 @@ define(['app/utils/utils', "knockout", "text!./account.html"], function (utils, 
         var self = this;
         self.user = ko.observable({});
 
-        utils.ajax("api/account", "GET",  {},
-            function (reply) {
-                switch (reply.status) {
-                    case "SUCCESS":
-                        self.user(reply.data);
-                        break;
-                    case "ERROR":
-                        break;
-                    case "UNAUTHENTICATED":
-                        console.log("UNAUTHENTICATED");
-                        utils.goTo("login");
-                        break;
-                    default:
-                        break;
-                }
+        utils.ajax("api/account", "GET", {},
+            function (data) {
+                self.user(data);
+            },
+            function () {
+                utils.goTo("login");
             });
 
         return self;

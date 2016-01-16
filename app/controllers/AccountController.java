@@ -1,8 +1,6 @@
 package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
-import models.Reply;
-import models.ReplyStatus;
 import models.User;
 import play.Logger;
 import play.libs.Json;
@@ -20,6 +18,6 @@ public class AccountController extends Controller {
     public Result account() {
         User user = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API Return account data for user = {}", user.toString());
-        return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, user)));
+        return ok(Json.toJson(user));
     }
 }

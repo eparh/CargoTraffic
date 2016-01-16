@@ -3,8 +3,6 @@ package controllers;
 import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Reply;
-import models.ReplyStatus;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
@@ -41,20 +39,14 @@ public class LoginController extends Controller {
         }
 
         if (user == null) {
-            return ok(Json.toJson(
-                    new Reply<>(ReplyStatus.ERROR, "User not found"))
-            );
+            return unauthorized();
         }
         if (BCrypt.checkpw(password, user.password)) {
             TokenController.removeToken(response());
             TokenController.setToken(user, request().host(), response());
-            return ok(Json.toJson(
-                    new Reply<>(ReplyStatus.SUCCESS, user.getRoles()))
-            );
+            return ok(Json.toJson(user.getRoles()));
         } else {
-            return ok(Json.toJson(
-                    new Reply<>(ReplyStatus.ERROR, "Wrong password"))
-            );
+            return unauthorized();
         }
     }
 
@@ -62,15 +54,13 @@ public class LoginController extends Controller {
     public Result roles() {
         User user = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API Get roles for user = {}", user.toString());
-        return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, user.getRoles())));
+        return ok(Json.toJson(user.getRoles()));
     }
 
-    @SubjectPresent
+
     public Result logout() {
-        LOGGER.debug("API Logout user = {}", Http.Context.current().args.get("user").toString());
+        LOGGER.debug("API Logout user");
         TokenController.removeToken(response());
-        return ok(Json.toJson(
-                new Reply<>(ReplyStatus.SUCCESS, "Logout"))
-        );
+        return ok();
     }
 }

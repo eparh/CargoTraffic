@@ -5,8 +5,6 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Company;
-import models.Reply;
-import models.ReplyStatus;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -34,13 +32,13 @@ public class CompanyController extends Controller {
         LOGGER.debug("id, companies, ascOrder: {}, {}, {}", id, companiesCount, isAscOrder);
         LOGGER.debug("API Get company list for user: {}", Http.Context.current().args.get("user").toString());
 
-        List<Company> companyList = null;
+        List<Company> companyList;
         try {
             companyList = CompanyService.getCompanies(id, companiesCount, isAscOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
-            return ok(Json.toJson(new Reply<>(ReplyStatus.ERROR, companyList)));
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));
+        return ok(Json.toJson(companyList));
     }
 }
