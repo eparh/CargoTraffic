@@ -6,11 +6,9 @@ define(['app/utils/utils', "knockout", "text!./navbar.html"], function (utils, k
 
         self.logout = function (root) {
             utils.ajax("api/logout", "POST", {},
-                function (reply) {
-                    if (reply.status === "SUCCESS") {
-                        root.roles([]);
-                        utils.goTo("login");
-                    }
+                function (data) {
+                    root.roles([]);
+                    utils.goTo("login");
                 })
         };
 

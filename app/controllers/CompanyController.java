@@ -4,8 +4,6 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import models.Company;
-import models.Reply;
-import models.ReplyStatus;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -26,13 +24,13 @@ public class CompanyController extends Controller {
     public Result companies() throws ControllerException {
         LOGGER.debug("API Get company list for user = {}", Http.Context.current().args.get("user").toString());
 
-        List<Company> companyList = null;
+        List<Company> companyList;
         try {
             companyList = CompanyService.getCompanies(3, 2, false);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
-            return ok(Json.toJson(new Reply<>(ReplyStatus.ERROR, companyList)));
+            throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(new Reply<>(ReplyStatus.SUCCESS, companyList)));
+        return ok(Json.toJson(companyList));
     }
 }

@@ -12,20 +12,16 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
     var roles = ko.observableArray([]);
 
 
-    if (roles().length === 0)
-        util.ajax("api/roles", "GET", {}, function (reply) {
-
-            if (reply.status === "SUCCESS") {
-                roles(reply.data);
-            }
-
+    util.ajax("api/roles", "GET", {},
+        function (data) {
+            roles(data);
             if (window.location.pathname === "/")
-                if (roles().length === 0) {
-                    util.goTo("login");
-                } else {
-                    util.goTo("account");
-                }
+                util.goTo("account");
 
+        }, function () {
+            if (window.location.pathname === "/")
+                util.goTo("login");
+        }, function () {
             ko.applyBindings({
                 route: router.currentRoute,
                 roles: roles
