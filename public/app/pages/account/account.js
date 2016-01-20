@@ -3,14 +3,23 @@ define(['app/utils/utils', "knockout", "text!./account.html"], function (utils, 
 
     function accountViewModel() {
         var self = this;
-        self.user = ko.observable({});
+        self.account = ko.observable({});
+        self.save = function() {
+            utils.ajax("api/account", "PUT", JSON.stringify(self.account()),
+                function (data) {
+                    utils.goTo("account");
+                },
+                function () {
+                    utils.goTo("error");
+                });
+        };
 
         utils.ajax("api/account", "GET", {},
             function (data) {
-                self.user(data);
+                self.account(data);
             },
             function () {
-                utils.goTo("login");
+                utils.goTo("error");
             });
 
         return self;

@@ -7,6 +7,7 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
     ko.components.register('account', {require: 'app/pages/account/account'});
     ko.components.register('companies', {require: 'app/pages/companies/companies'});
     ko.components.register('home', {require: 'app/pages/home/home'});
+    ko.components.register('error', {require: 'app/pages/error/error'});
 
 
     var roles = ko.observableArray([]);

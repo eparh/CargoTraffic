@@ -22,7 +22,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
                 self.companies(data);
             },
             function (data) {
-                utils.goTo("login");
+                utils.goTo("error");
             });
 
         self.nextPage = function () {
@@ -41,7 +41,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
                     self.companies(data);
                 },
                 function (data) {
-                    utils.goTo("login");
+                    utils.goTo("error");
                 });
 
         };
@@ -62,7 +62,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
                     self.companies(data);
                 },
                 function () {
-                    utils.goTo("login");
+                    utils.goTo("error");
                 });
 
         };
