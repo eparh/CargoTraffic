@@ -21,11 +21,11 @@ public class User implements Subject {
     @Constraints.Required
     public Long id;
 
-    @Column(name="company_id")
-    public Long companyId;
+    @OneToOne( cascade = CascadeType.ALL)
+    public Company company;
 
-    @Column(name="address_id")
-    public Long addressId;
+    @OneToOne( cascade = CascadeType.ALL)
+    public Address address;
 
     @Constraints.Required
     public String username;
@@ -35,7 +35,7 @@ public class User implements Subject {
     @Constraints.Required
     public String surname;
 
-    @JsonIgnore
+
     @Constraints.Required
     public String password;
 
@@ -43,8 +43,7 @@ public class User implements Subject {
 
     public String email;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date birthday;
+    public String birthday;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_role",
@@ -55,16 +54,17 @@ public class User implements Subject {
     public List<UserRole> userRoleList;
 
     @Override
-    public List<? extends Role> getRoles() {
+    public List<UserRole> getRoles() {
         return userRoleList;
     }
 
+    @JsonIgnore
     @Override
     public List<? extends Permission> getPermissions() {
         return null;
     }
 
-
+    @JsonIgnore
     @Override
     public String getIdentifier() {
         return null;

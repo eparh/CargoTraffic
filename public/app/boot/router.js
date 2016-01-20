@@ -7,7 +7,8 @@ define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, cross
             {url: 'account', params: {page: 'account'}},
             {url: 'companies', params: {page: 'companies'}},
             {url: 'home', params: {page: 'home'}},
-            {url: 'settings', params: {page: 'settings'}}
+            {url: 'settings', params: {page: 'settings'}},
+            {url: 'error', params: {page: 'error'}}
         ]
     });
 

@@ -9,7 +9,8 @@ GET        /api/roles            controllers.LoginController.roles()
 
 
 GET         /api/companies        controllers.CompanyController.companies()
-GET         /api/account          controllers.AccountController.account()
+GET         /api/account          controllers.AccountController.getAccount()
+PUT         /api/account          controllers.AccountController.updateAccount()
 
 
 

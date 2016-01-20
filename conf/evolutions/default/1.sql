@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`address` (
   `city`    VARCHAR(250),
   `street`  VARCHAR(250),
   `house`   VARCHAR(250),
+  `flat`   VARCHAR(250),
   `deleted` BIT(1)                         DEFAULT FALSE,
   PRIMARY KEY (`id`)
 )

@@ -1,6 +1,7 @@
 package service;
 
 import models.User;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
 
@@ -64,11 +65,27 @@ public class UserService {
                         Root<User> u = query.from(User.class);
                         query.select(u).where(builder.equal(u.get("username"), name));
                         TypedQuery<User> q = em.createQuery(query);
-                        return q.getSingleResult();
+                        List<User> userList = q.getResultList();
+                        if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
+                        return null;
                     }
             );
         } catch (Throwable throwable) {
             LOGGER.error("Find user name = {}, error = {}", name, throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public static void update(User user) throws ServiceException {
+        LOGGER.debug("Update user with id = {}", user.id);
+        try {
+            JPA.withTransaction(() -> {
+                        EntityManager em = JPA.em();
+                        em.merge(user);
+                    }
+            );
+        } catch (Throwable throwable) {
+            LOGGER.error("Update user id = {}, error = {}", user.id, throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

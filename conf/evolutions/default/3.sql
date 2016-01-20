@@ -8,8 +8,8 @@ INSERT INTO `cargo_traffic`.`company` (name) VALUES
   ("TravelInc"),
   ("SomeInc");
 
-INSERT INTO `address` (country, city, street, house) VALUES
-  ("Belarus", "Minsk", "blabla", "12");
+INSERT INTO `address` (country, city, street, house, flat) VALUES
+  ("Belarus", "Minsk", "blabla", "12", "1");
 
 
 
